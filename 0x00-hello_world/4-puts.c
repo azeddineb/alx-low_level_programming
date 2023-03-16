@@ -1,10 +1,11 @@
 #include<stdio.h>
+/**
+ * main - A program that prints a line 
+ * Return: 0
+ */
 int main(void)
 {
-/**
- * this instruction print a line
- * Return: 0
- * */
+/*puts a text*/
 puts("\"Programming is like building a multilingual puzzle");
 return (0);
 }

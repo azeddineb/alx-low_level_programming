@@ -1,10 +1,10 @@
 #include<stdio.h>
-/**
- * Entry point - a programme that print a line
- * Return: 0 (success)
- */
 int main(void)
 {
+/**
+ * this instruction print a line
+ * Return: 0
+ * */
 puts("\"Programming is like building a multilingual puzzle");
 return (0);
 }

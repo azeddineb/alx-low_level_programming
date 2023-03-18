@@ -9,7 +9,7 @@ int main(void)
 
 	for (i = 0; i < 10; i++)
 	{
-		for (j = 0; j < 9; j++)
+		for (j = 0; j < 10; j++)
 		{
 			k = i;
 			while (k < 10)
@@ -22,7 +22,7 @@ int main(void)
 					putchar(' ');
 					putchar(k + '0');
 					putchar(q + '0');
-					if (i != 9 || j != 8 || k != 9 || q != 9)
+					if (i != 9 || j != 9 || k != 9 || q != 9)
 					{
 						putchar(',');
 						putchar(' ');

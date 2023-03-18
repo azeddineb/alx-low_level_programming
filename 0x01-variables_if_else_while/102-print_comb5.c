@@ -17,17 +17,28 @@ int main(void)
 				q = (k == i) ? j + 1 : 0; /*start from j+1 only for the first value of k*/
 				while (q < 10)
 				{
-					putchar(i + '0');
-					putchar(j + '0');
-					putchar(' ');
-					putchar(k + '0');
-					putchar(q + '0');
-					if (i != 9 || j != 8 || k != 9 || q != 9)
+					int unique = 1; /* assume combination is unique */
+
+					if (i == k && j == q) /* check if digits repest */
 					{
-						putchar(',');
-						putchar(' ');
+						unique = 0;
 					}
-					q++;
+					if (unique && i == q && j == k)
+					{
+						unique = 0;
+					}
+					if (unique)
+					{
+						putchar(i + '0');
+						putchar(j + '0');
+						putchar(' ');
+						putchar(k + '0');
+						putchar(q + '0');
+						if (i != 9 || j != 8 || k != 9 || q != 9)
+						{
+							putchar(',');
+							putchar(' ');
+						}
 				}
 				k++;
 			}

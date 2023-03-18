@@ -5,7 +5,8 @@
  */
 int main(void)
 {
-	int i, j, k, q;
+	int i, j, k, l;
+	int unique;
 
 	for (i = 0; i < 10; i++)
 	{
@@ -14,16 +15,17 @@ int main(void)
 			k = i;
 			while (k < 10)
 			{
-				q = (k == i) ? j + 1 : 0; /*start from j+1 only for the first value of k*/
-				while (q < 10)
+				l = (k == i) ? j + 1 : 0;
+				while (l < 10)
 				{
-					int unique = 1; /* assume combination is unique */
-
-					if (i == k && j == q) /* check if digits repest */
+					/* assume combination is unique */
+					unique = 1;
+					/* check if digits repeat */
+					if (i == k && j == l)
 					{
 						unique = 0;
 					}
-					if (unique && i == q && j == k)
+					if (unique && i == l && j == k)
 					{
 						unique = 0;
 					}
@@ -33,12 +35,14 @@ int main(void)
 						putchar(j + '0');
 						putchar(' ');
 						putchar(k + '0');
-						putchar(q + '0');
-						if (i != 9 || j != 8 || k != 9 || q != 9)
+						putchar(l + '0');
+						if (i != 9 || j != 8 || k != 9 || l != 9)
 						{
 							putchar(',');
 							putchar(' ');
 						}
+					}
+					l++;
 				}
 				k++;
 			}
@@ -47,3 +51,4 @@ int main(void)
 	putchar('\n');
 	return (0);
 }
+

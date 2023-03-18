@@ -14,7 +14,7 @@ int main(void)
 			k = i;
 			while (k < 10)
 			{
-				q = (k == i) ? j + 1 : 0; /* start from j+1 only for the first value of k */
+				q = (k == i) ? j + 1 : 0; /*start from j+1 only for the first value of k*/
 				while (q < 10)
 				{
 					unique = 1; /* assume combination is unique */
@@ -48,4 +48,3 @@ int main(void)
 	putchar('\n');
 	return (0);
 }
-

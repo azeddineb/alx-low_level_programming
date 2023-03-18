@@ -14,7 +14,7 @@ int main(void)
 			k = i;
 			while (k < 10)
 			{
-				q = j + 1;
+				q = (k == i) ? j+1 : 0; /*start from j+1 only for the first value of k*/
 				while (q < 10)
 				{
 					putchar(i + '0');

@@ -5,11 +5,10 @@
  */
 void print_to_98(int n)
 {
-	int i;
-	
+	int i = n;
+
 	if (i <= 98)
 	{
-		i = n;
 		while (n <= 98)
 		{
 			_putchar(i + '0');
@@ -23,8 +22,7 @@ void print_to_98(int n)
 	}
 	else if (n > 98)
 	{
-		i = n;
-		while (i >=98)
+		while (i >= 98)
 		{
 			_putchar(i + '0');
 			if (i != 98)

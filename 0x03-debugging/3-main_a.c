@@ -9,6 +9,7 @@
 
 int main(void)
 {
+
 	int month;
 	int day;
 	int year;
@@ -24,4 +25,5 @@ int main(void)
 	print_remaining_days(month, day, year);
 
 	return (0);
+
 }

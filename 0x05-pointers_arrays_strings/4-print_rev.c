@@ -5,16 +5,16 @@
  */
 void print_rev(char *s)
 {
-	int long = 0;
+	int longi = 0;
 	int i;
 
 	while (*s != '\0')
 	{
-		long++;
+		longi++;
 		s++;
 	}
 	s--;
-	for (i = long; i > 0; i--)
+	for (i = longi; i > 0; i--)
 	{
 		_putchar(*s);
 		s--;

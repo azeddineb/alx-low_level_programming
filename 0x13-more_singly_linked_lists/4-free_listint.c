@@ -11,19 +11,13 @@
 void free_listint(listint_t *head)
 {
 	listint_t *tmp;
-
-	if (head == NULL)
-		printf("List is empty\n");
-	else
+	
+	while (head)
 	{
-		while (head->next)
-		{
-			tmp = head->next;
-			free(head);
-			head = tmp;
-		}
-
-		free(tmp);
+		tmp = head->next;
+		free(head);
+		head = tmp;
 	}
+
 }
 

@@ -1,70 +1,93 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#define BUFFER_SIZE 1024
+#include "main.h"
+
+char *create_buffer(char *file);
+void close_file(int fd);
 
 /**
- * error_exit - exit the programme if there is an error
- * @message: message to print
- * @filename: pointer to the name of the file
- * @fd: integer
+ * create_buffer - allocate 1024 bytes foe a buffer.
+ * @file: the name of the file buffer is storing chars for
+ *
+ * Return: pointer to the newly-allocated buffer
  */
-void error_exit(char *message, const char *filename, int fd)
+char *create_buffer(char *file)
 {
-	dprintf(STDERR_FILENO, message, filename);
-	if (fd != -1)
+	char *buffer;
+
+	buffer = malloc(sizeof(char) * 1024);
+
+	if (buffer == NULL)
 	{
-		close(fd);
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file);
+		exit(98);
 	}
-	exit(EXIT_FAILURE);
+
+	return (buffer);
 }
 
 /**
- * main - copies the contenets of a file to another file
- * @argc: number of arguments
- * @argv: an array of pointers to the arguments
- * Return: 0 on susccess
+ * close_file - closes file descriptors.
+ * @fd: the file descriptor to be closed
  */
-int main(int argc, char **argv)
+void close_file(int fd)
 {
-	const char *file_form;
-	const char *file_to;
-	int fd_form;
-	int fd_to;
-	char buffer[BUFFER_SIZE];
-	ssize_t read_bytes;
-	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
+	int c;
+
+	c = close(fd);
+	if (c == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		exit(100);
+	}
+}
+
+/**
+ * main - copies the contents of a file to another file.
+ * @argc: number of arguments.
+ * @argv: array of pointers to the arguments.
+ *
+ * Return: 0 (success)
+ */
+int main(int argc, char *argv[])
+{
+	int from, to, r, w;
+	char *buffer;
 
 	if (argc != 3)
 	{
-		dprintf(STDERR_FILENO, "Usage: %s file_form file_to\n", argv[0]);
+		dprintf(STDERR_FILENO, "Usage: cp file_form file_to\n");
 		exit(97);
 	}
-	file_form = argv[1];
-	file_to = argv[2];
-	fd_form = open(file_form, O_RDONLY);
-	if (fd_form == -1)
-	{
-		error_exit("Error: Can't read from %s\n", file_form, -1);
-	}
-	fd_to = open(file_to, O_WRONLY | O_CREAT | O_TRUNC, mode);
-	if (fd_to == -1)
-	{
-		error_exit("Error: Can't write to %s\n", file_to, fd_form);
-	}
 
-	while ((read_bytes = read(fd_form, buffer, BUFFER_SIZE)) > 0)
-	{
-		ssize_t written_bytes = write(fd_to, buffer, read_bytes);
+	buffer = create_buffer(argv[2]);
+	from = open(argv[1], O_RDONLY);
+	r = read(from, buffer, 1024);
+	to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 
-		if (written_bytes == -1 || written_bytes != read_bytes)
-			error_exit("Error: Can't write to %s\n", file_to, fd_form);
-	}
-	if (read_bytes == -1)
-		error_exit("Error: can't read from file %s\n", file_form, fd_to);
-	close(fd_form);
-	close(fd_to);
+	do {
+		if (from == -1 || r == -1)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+			free(buffer);
+			exit(98);
+		}
+
+		w = write(to, buffer, r);
+		if (to == -1 || w == -1)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+			free(buffer);
+			exit(99);
+		}
+
+		r = read(from, buffer, 1024);
+		to = open(argv[2], O_WRONLY | O_APPEND);
+	} while (r > 0);
+
+	free(buffer);
+	close_file(from);
+	close_file(to);
 
 	return (0);
 }
